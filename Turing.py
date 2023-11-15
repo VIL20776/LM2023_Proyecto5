@@ -32,7 +32,7 @@ class TuringMachine:
         """
         
         # Previene cadenas invalidas
-        if any(e not in self.E for e in w):
+        if any(e not in self.G for e in w):
             print("Error: Cadena invalida.")
             return 1
         
@@ -46,11 +46,14 @@ class TuringMachine:
         while (self.q_a not in C) and (self.q_r not in C):
             state, symbol, move = self.d[(C[i], C[i+1])]
             
-            C[i] = symbol if symbol != '' else C[i+move]
+            C[i+1] = symbol if symbol != '' else C[i+1]
+            C[i] = C[i+move]
             C[i+move] = state
             i += move
             
             if i < 0: i = 0
+            
+            if i >= len(C)-1: C.append('_')
 
             n += 1
             C_string = "".join(C)
